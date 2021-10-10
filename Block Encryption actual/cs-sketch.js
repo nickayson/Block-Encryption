@@ -25,6 +25,13 @@ function setup() // P5 Setup Fcn
     g_button_1 = createButton( "Submit" ); // Create button to help get input data.
     g_button_1.position( 160, 30 ); // Put button on page.
     g_button_1.mousePressed( retrieve_input_1 ); // Hook button press to callback fcn.
+
+        // Setup input-box for input and a callback fcn when button is pressed.
+        g_input_2 = createInput( ); // Create an input box, editable.
+        g_input_2.position( 40, 60 ); // Put box on page.
+        g_button_2 = createButton( "Message" ); // Create button to help get input data.
+        g_button_2.position( 190, 60 ); // Put button on page.
+        g_button_2.mousePressed( retrieve_input_1 ); // Hook button press to callback fcn.
 }
 
 // Callback to get Input-box data.
@@ -73,6 +80,14 @@ function retrieve_input_1()
     // dictionary word (comprehensive8).
     if (array_of_characters.length != 8) {
         console.log ( "the password is not the right length"); // password is a fixed 8 characters
+    }
+
+    function retrieve_input_2()
+    {
+        data2 = g_input_2.value(); // Get data from Input box.
+        console.log(data2);
+        var array_of_characters2 = new Array();
+        let newArray2 = data.split(''); // splits every letter in string into an item in our array
     }
 }
 //"ABC".charCodeAt(0) // returns 65

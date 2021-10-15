@@ -16,14 +16,29 @@
     <script src="cs-sketch.js"></script>    <!-- Load my setup+draw P5-req'd fcns -->
   </head>
   <body>     <!-- HTML page body, where raw text gets displayed on the page -->
-    <h1>College Capybaras Block Encryption </h1>    <!-- Text in a high priority heading -->
-    <!-- 
-    <canvas id="cs-canvas" width="400" height="400"></canvas>
-     -->
+    <h1>College Capybaras Block Encryption </h1> 
     <p>    <!-- A paragraph 'break', to start a new paragraph -->
       AJ Albrecht, Nicholas Ayson, Darrick Rusk, Po-Tyng(Peter) Wu
-      <input id = "messageInput" type = "text" placeholder = "Enter a Message" maxlength = "27" size = "29" autocomplete = "off"/>
     </p>
+    <div style="display:flex;justify-content:center;align-items:center;">
+        <div class = "wrapper">
+          <p>
+              <b>Rules:</b>
+                  <br>
+                  <li>Maximum length is 27 characters.</li>
+                  <li>8 characters required.</li>
+                  <li>Uppercase character required.</li>
+                  <li>Lowercase character required.</li>
+                  <li>Digit required.</li>
+                  <li>Symbol required.</li>
+                  <br>
+              <input id="messageInput" type="text" placeholder="Enter a message" maxlength="27" size="29" autocomplete="off"/><br><span id="msgError"></span><br>
+              <p>Please enter Password</p>
+          </p>
+        </div>
+    </div>
+    <form>
+    </form>
 
   </body>    <!-- HTML display page ends here -->
     <script src="assets/draw-stuff.js"></script>   <!-- Load some JS fcns in a file -->

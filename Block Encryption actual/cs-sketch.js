@@ -20,10 +20,10 @@ function setup() // P5 Setup Fcn
     draw_grid( 25, 8, 'white', 'yellow' );
 
     // Setup input-box for input and a callback fcn when button is pressed.
-    g_input_1 = createInput( ); // Create an input box, editable.
-    g_input_1.position( 20, 30 ); // Put box on page.
+    g_input_1 = createInput(); // Create an input box, editable.
+    g_input_1.position( 840 , 320 ); // Put box on page.
     g_button_1 = createButton( "Submit" ); // Create button to help get input data.
-    g_button_1.position( 160, 30 ); // Put button on page.
+    g_button_1.position( 1020, 320 ); // Put button on page.
     g_button_1.mousePressed( retrieve_input_1 ); // Hook button press to callback fcn.
 
         // Setup input-box for input and a callback fcn when button is pressed.
@@ -36,6 +36,16 @@ function retrieve_input_1()
 {
     var messageFieldInput = document.getElementById("messageInput").value;
     var message_length = messageFieldInput.length;
+    if (message_length == 0) {
+        console.log("Please enter a message");
+        return
+    }
+    if (message_length > 27) {
+        console.log("The message is too long");
+        return
+    }
+    var output_message = outputMessage(messageFieldInput, message_length);
+    console.log("Output MSG:" + output_message);
 
     data = g_input_1.value(); // Get data from Input box.
     var index = 0;
@@ -61,93 +71,78 @@ function retrieve_input_1()
         array_of_characters[index] = i;
         //console.log( "array data - " + array_of_characters[index])
         // upper case check
-        if (array_of_characters[index] >= 65 && array_of_characters[index] <= 90) {
+        if (array_of_characters[index] >= 65 && array_of_characters[index] <= 90) 
+        {
             upper_case = true;
             //console.log("is upper case");
-        } else {
+        } 
+        else 
+        {
             //console.log("value is not uppercase")
         }
         // lower case check
-        if (array_of_characters[index] >= 97 && array_of_characters[index] <= 122) {
+        if (array_of_characters[index] >= 97 && array_of_characters[index] <= 122) 
+        {
             lower_case = true;
             //console.log("is lower case");
-        } else {
+        } 
+        else 
+        {
            //console.log("value is not lowercase")
         }
         // symbol check
         if ((array_of_characters[index] >= 33 && array_of_characters[index] <= 47) || 
             (array_of_characters[index] >= 91 && array_of_characters[index] <= 96) || 
-            (array_of_characters[index] >= 123 && array_of_characters[index] <= 127) ) {
+            (array_of_characters[index] >= 123 && array_of_characters[index] <= 127) ) 
+            {
             symbol = true;
             //console.log("is a symbol");
-        } else {
-            //console.log("value is not a symbol");
         }
-        
-     ///////////////////////////////////////////////////////////////////////////////////////////////
-        
+        else 
+        {
+            //console.log("value is not a symbol");
+        }   
         index++;
     }
+    /////////////////////////////////////////////////////////////////////////////////////////////// 
     // Password must have at least eight characters including an uppercase and lowercase letter, a symbol, and a digit. It may not contain a
     // dictionary word (comprehensive8).
     if (array_of_characters.length != 8) {
         console.log ( "the password is not the right length"); // password is a fixed 8 characters
     }
-    var output_message = outputMessage(messageFieldInput, message_length);
-    if (message_length == 0) {
-        console.log("Please enter a message");
-        return
-    }
-    if (message_length > 27) {
-        console.log("The message is too long");
-        return
+    
+    //prints message in grid
+    textSize(17);
+    for (i in output_message)
+    {
+        text(output_message[i], (8+(i*25)), 20);
     }
 
-    stroke(0);
-    fill(255, 0, 0);
-    textSize(17);
-    for (i in outputMessage)
+    var encodedmessage = encryption(output_message, array_of_characters);
+    console.log("Encoded message: " + encodedmessage);
+    for (i in encodedmessage) 
     {
-        text(outputMessage[i], (8+(i*25)), 20);
+        text(encodedmessage[i], (8+(i*25)), 42);
     }
 }
 
-function outputMessage(message)
+
+function outputMessage(message, length)
 {
-    console.log(message);
+    if (message.length < 27) {message = (message + "                          ").substring(0,28);}
     let block1 = message.substring(0,7) + "1";
     let block2 = message.substring(7,14) + "2";
     let block3 = message.substring(14,21) + "3";
-    let block4 = message.substring(21,27) + "4";
-    let complete_message = block1 + block2 + block3 + block4;
-    console.log(complete_message);
-    return complete_message;
+    let block4 = message.substring(21,28) + "4";
+    return (block1 + block2 + block3 + block4);
 }
 
-// draw_grid(20, 20, 'white', 'yellow');
-// textSize(15);
-// DisplayName();
-// function DisplayName(){
-//     var insertion = "Insertion";
-//     var selection = "Selection";
-//     var merge     = "Merge";
-//     var pore      = "Pore";
-//     var quick     = "Quick";
-  
-//     // Displaying Insertion string
-//     for(var i = 0; i < insertion.length; ++i){
-//       text(insertion[i], x_insert, y_insert);
-//       text(selection[i], x_selection, y_selection);
-//       text(merge[i], x_merge, y_merge);
-//       text(pore[i], x_pore, y_pore);
-//       text(quick[i], x_quick, y_quick);
-//       x_insert  = x_insert + 20;
-//       x_selection = x_selection + 20;
-//       x_merge   = x_merge + 20;
-//       x_pore    = x_pore + 20;
-//       x_quick   = x_quick + 20;
-//     }
-//   }
+function encryption(message, array_of_characters)
+{
+    //TODO: encryption with XOR
+    return 0;
+}
+
 
 //"ABC".charCodeAt(0) // returns 65
 // String.fromCharCode(65,66,67); // returns 'ABC'

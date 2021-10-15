@@ -5,7 +5,7 @@
 var g_canvas = { cell_size:20, wid:40, hgt:20 }; // JS Global var, w canvas size info.
 
 var g_frame_cnt = 0; // Setup a P5 display-frame counter, to do anim
-// var g_frame_mod = 24; // Update ever 'mod' frames.
+var g_frame_mod = 24; // Update ever 'mod' frames.
 var g_stop = 0; // Go by default.
 var g_input; // My input box.
 var g_button; // Button for my input box.
@@ -16,25 +16,14 @@ function setup() // P5 Setup Fcn
     let sz = g_canvas.cell_size;
     let width = sz * g_canvas.wid;  // Our 'canvas' uses cells of given size, not 1x1 pixels.
     let height = sz * g_canvas.hgt;
-    createCanvas( width, height );  // Make a P5 canvas.
+    createCanvas( width, height );  // Make a P5 canvas
     draw_grid( 25, 8, 'white', 'yellow' );
-
-    // Setup input-box for input and a callback fcn when button is pressed.
-    g_input_1 = createInput(); // Create an input box, editable.
-    g_input_1.position( 840 , 320 ); // Put box on page.
-    g_button_1 = createButton( "Submit" ); // Create button to help get input data.
-    g_button_1.position( 1020, 320 ); // Put button on page.
-    g_button_1.mousePressed( retrieve_input_1 ); // Hook button press to callback fcn.
-
-        // Setup input-box for input and a callback fcn when button is pressed.
-        // g_input_2 = createInput( ); // Create an input box, editable.
-        // g_input_2.position( 40, 60 ); // Put box on page.
 }
 
 // Callback to get Input-box data.
 function retrieve_input_1()
 {
-    var messageFieldInput = document.getElementById("messageInput").value;
+    var messageFieldInput = document.getElementById("messageinput").value;
     var message_length = messageFieldInput.length;
     if (message_length == 0) {
         console.log("Please enter a message");
@@ -47,26 +36,32 @@ function retrieve_input_1()
     var output_message = outputMessage(messageFieldInput, message_length);
     console.log("Output MSG:" + output_message);
 
-    data = g_input_1.value(); // Get data from Input box.
-    var index = 0;
-    var array_of_characters = new Array();
-    let newArray = data.split(''); // splits every letter in string into an item in our array
+    var pwinput = document.getElementById("passwordinput").value; 
+    let check = passwordcheck(pwinput); 
 
     
-    // data2 = g_input_2.value(); // Get data from Input box.
-    // console.log(data2);
-    // var array_of_characters2 = new Array();
-    // let newArray2 = data2.split(''); // splits every letter in string into an item in our array
-    // console.log(array_of_characters2);
+    //prints message in grid
+    textSize(17);
+    for (i in output_message)
+    {
+        text(output_message[i], (8+(i*25)), 20);
+    }
+}
 
+//The ASCII password check
+function passwordcheck(text)
+{
+    // data = g_input_1.value(); // Get data from Input box.
+    var index = 0;
+    var array_of_characters = new Array();
+    let newArray = text.split(''); // splits every letter in string into an item in our array
 
-    /////////////////////////////////////////this is for verifying the password ////////////////////////////////////////////////////////
     var upper_case = false;
     var lower_case = false;
     var symbol =     false;
-    while (index != data.length) {
+    while (index != text.length) {
         //var ascii_code = data;
-        var i = data.charCodeAt(index); // this is the number at the ascii reference
+        var i = text.charCodeAt(index); // this is the number at the ascii reference
         //console.log( "data = " + i); // Show data in F12 Console output.
         array_of_characters[index] = i;
         //console.log( "array data - " + array_of_characters[index])
@@ -104,46 +99,12 @@ function retrieve_input_1()
         }   
         index++;
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////// 
     // Password must have at least eight characters including an uppercase and lowercase letter, a symbol, and a digit. It may not contain a
     // dictionary word (comprehensive8).
     if (array_of_characters.length != 8) {
         console.log ( "the password is not the right length"); // password is a fixed 8 characters
     }
-    
-    //prints message in grid
-    textSize(17);
-    for (i in output_message)
-    {
-        text(output_message[i], (8+(i*25)), 20);
-    }
-
-    var encodedmessage = encryption(output_message, array_of_characters);
-    console.log("Encoded message: " + encodedmessage);
-    for (i in encodedmessage) 
-    {
-        text(encodedmessage[i], (8+(i*25)), 42);
-    }
 }
-
-
-function outputMessage(message, length)
-{
-    if (message.length < 27) {message = (message + "                          ").substring(0,28);}
-    let block1 = message.substring(0,7) + "1";
-    let block2 = message.substring(7,14) + "2";
-    let block3 = message.substring(14,21) + "3";
-    let block4 = message.substring(21,28) + "4";
-    return (block1 + block2 + block3 + block4);
-}
-
-function encryption(message, array_of_characters)
-{
-    //TODO: encryption with XOR
-    return 0;
-}
-
-
 //"ABC".charCodeAt(0) // returns 65
 // String.fromCharCode(65,66,67); // returns 'ABC'
 // {
@@ -168,5 +129,22 @@ function encryption(message, array_of_characters)
 //     "121": "y",    "122": "z",    "123": "{",    "124": "|",    "125": "}",    
 //     "126": "~",    "127": ""
 //     }
+
+
+function outputMessage(message, length)
+{
+    if (message.length < 27) {message = (message + "                          ").substring(0,27);}
+    let block1 = message.substring(0,7) + "1";
+    let block2 = message.substring(7,14) + "2";
+    let block3 = message.substring(14,21) + "3";
+    let block4 = message.substring(21,27) + "4";
+    return (block1 + block2 + block3 + block4);
+}
+
+function encryption(message, array_of_characters)
+{
+    //TODO: encryption with XOR
+    return 0;
+}
 
 

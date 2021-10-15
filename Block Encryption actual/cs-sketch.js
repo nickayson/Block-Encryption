@@ -2,10 +2,10 @@
 // Time-stamp: <2021-09-28 16:54:18 Chuck Siska>
 
 // Make global g_canvas JS 'object': a key-value 'dictionary'.
-var g_canvas = { cell_size:10, wid:64, hgt:48 }; // JS Global var, w canvas size info.
+var g_canvas = { cell_size:20, wid:40, hgt:20 }; // JS Global var, w canvas size info.
 
 var g_frame_cnt = 0; // Setup a P5 display-frame counter, to do anim
-var g_frame_mod = 24; // Update ever 'mod' frames.
+// var g_frame_mod = 24; // Update ever 'mod' frames.
 var g_stop = 0; // Go by default.
 var g_input; // My input box.
 var g_button; // Button for my input box.
@@ -17,7 +17,7 @@ function setup() // P5 Setup Fcn
     let width = sz * g_canvas.wid;  // Our 'canvas' uses cells of given size, not 1x1 pixels.
     let height = sz * g_canvas.hgt;
     createCanvas( width, height );  // Make a P5 canvas.
-    // draw_grid( 10, 50, 'white', 'yellow' );
+    draw_grid( 25, 8, 'white', 'yellow' );
 
     // Setup input-box for input and a callback fcn when button is pressed.
     g_input_1 = createInput( ); // Create an input box, editable.
@@ -27,52 +27,64 @@ function setup() // P5 Setup Fcn
     g_button_1.mousePressed( retrieve_input_1 ); // Hook button press to callback fcn.
 
         // Setup input-box for input and a callback fcn when button is pressed.
-        g_input_2 = createInput( ); // Create an input box, editable.
-        g_input_2.position( 40, 60 ); // Put box on page.
-        g_button_2 = createButton( "Message" ); // Create button to help get input data.
-        g_button_2.position( 190, 60 ); // Put button on page.
-        g_button_2.mousePressed( retrieve_input_1 ); // Hook button press to callback fcn.
+        // g_input_2 = createInput( ); // Create an input box, editable.
+        // g_input_2.position( 40, 60 ); // Put box on page.
 }
 
 // Callback to get Input-box data.
 function retrieve_input_1()
 {
+    var messageFieldInput = document.getElementById("messageInput").value;
+    var message_length = messageFieldInput.length;
+
     data = g_input_1.value(); // Get data from Input box.
     var index = 0;
     var array_of_characters = new Array();
     let newArray = data.split(''); // splits every letter in string into an item in our array
+
+    
+    // data2 = g_input_2.value(); // Get data from Input box.
+    // console.log(data2);
+    // var array_of_characters2 = new Array();
+    // let newArray2 = data2.split(''); // splits every letter in string into an item in our array
+    // console.log(array_of_characters2);
+
+
+    /////////////////////////////////////////this is for verifying the password ////////////////////////////////////////////////////////
     var upper_case = false;
     var lower_case = false;
     var symbol =     false;
     while (index != data.length) {
         //var ascii_code = data;
         var i = data.charCodeAt(index); // this is the number at the ascii reference
-        console.log( "data = " + i); // Show data in F12 Console output.
+        //console.log( "data = " + i); // Show data in F12 Console output.
         array_of_characters[index] = i;
-        console.log( "array data - " + array_of_characters[index])
+        //console.log( "array data - " + array_of_characters[index])
         // upper case check
         if (array_of_characters[index] >= 65 && array_of_characters[index] <= 90) {
             upper_case = true;
-            console.log("is upper case");
+            //console.log("is upper case");
         } else {
-            console.log("value is not uppercase")
+            //console.log("value is not uppercase")
         }
         // lower case check
         if (array_of_characters[index] >= 97 && array_of_characters[index] <= 122) {
             lower_case = true;
-            console.log("is lower case");
+            //console.log("is lower case");
         } else {
-            console.log("value is not lowercase")
+           //console.log("value is not lowercase")
         }
         // symbol check
         if ((array_of_characters[index] >= 33 && array_of_characters[index] <= 47) || 
             (array_of_characters[index] >= 91 && array_of_characters[index] <= 96) || 
             (array_of_characters[index] >= 123 && array_of_characters[index] <= 127) ) {
             symbol = true;
-            console.log("is a symbol");
+            //console.log("is a symbol");
         } else {
-            console.log("value is not a symbol");
+            //console.log("value is not a symbol");
         }
+        
+     ///////////////////////////////////////////////////////////////////////////////////////////////
         
         index++;
     }
@@ -81,15 +93,62 @@ function retrieve_input_1()
     if (array_of_characters.length != 8) {
         console.log ( "the password is not the right length"); // password is a fixed 8 characters
     }
+    var output_message = outputMessage(messageFieldInput, message_length);
+    if (message_length == 0) {
+        console.log("Please enter a message");
+        return
+    }
+    if (message_length > 27) {
+        console.log("The message is too long");
+        return
+    }
 
-    function retrieve_input_2()
+    stroke(0);
+    fill(255, 0, 0);
+    textSize(17);
+    for (i in outputMessage)
     {
-        data2 = g_input_2.value(); // Get data from Input box.
-        console.log(data2);
-        var array_of_characters2 = new Array();
-        let newArray2 = data.split(''); // splits every letter in string into an item in our array
+        text(outputMessage[i], (8+(i*25)), 20);
     }
 }
+
+function outputMessage(message)
+{
+    console.log(message);
+    let block1 = message.substring(0,7) + "1";
+    let block2 = message.substring(7,14) + "2";
+    let block3 = message.substring(14,21) + "3";
+    let block4 = message.substring(21,27) + "4";
+    let complete_message = block1 + block2 + block3 + block4;
+    console.log(complete_message);
+    return complete_message;
+}
+
+// draw_grid(20, 20, 'white', 'yellow');
+// textSize(15);
+// DisplayName();
+// function DisplayName(){
+//     var insertion = "Insertion";
+//     var selection = "Selection";
+//     var merge     = "Merge";
+//     var pore      = "Pore";
+//     var quick     = "Quick";
+  
+//     // Displaying Insertion string
+//     for(var i = 0; i < insertion.length; ++i){
+//       text(insertion[i], x_insert, y_insert);
+//       text(selection[i], x_selection, y_selection);
+//       text(merge[i], x_merge, y_merge);
+//       text(pore[i], x_pore, y_pore);
+//       text(quick[i], x_quick, y_quick);
+//       x_insert  = x_insert + 20;
+//       x_selection = x_selection + 20;
+//       x_merge   = x_merge + 20;
+//       x_pore    = x_pore + 20;
+//       x_quick   = x_quick + 20;
+//     }
+//   }
+
 //"ABC".charCodeAt(0) // returns 65
 // String.fromCharCode(65,66,67); // returns 'ABC'
 // {
@@ -97,7 +156,7 @@ function retrieve_input_1()
 //     "36": "$",     "37": "%",     "38": "&",     "39": "'",     "40": "(",    
 //     "41": ")",     "42": "*",     "43": "+",     "44": ",",     "45": "-",    
 //     "46": ".",     "47": "/",     "48": "0",     "49": "1",     "50": "2",    
-//     "51": "3",     "52": "4",     "53": "5",     "54": "6",     "55": "7",    
+//     "51": "3",     "52": "4",     "53": "5",     "54": "6",     "55": "7",    ]
 //     "56": "8",     "57": "9",     "58": ":",     "59": ";",     "60": "<",    
 //     "61": "=",     "62": ">",     "63": "?",     "64": "@",     "65": "A",    
 //     "66": "B",     "67": "C",     "68": "D",     "69": "E",     "70": "F",    
@@ -115,105 +174,4 @@ function retrieve_input_1()
 //     "126": "~",    "127": ""
 //     }
 
-// // Past this point is the black grid
-// // Globals to keep track of Bot
-// var g_bot = { dir:3, x:20, y:20, color:100 }; // Dir is 0..7 clock, w 0 up.
-// var g_box = { t:1, hgt:47, l:1, wid:63 }; // Box in which bot can move.
 
-// // Move the Bot at random, to a neighboring cell, changing Bot's painting color.
-// function move_bot( )
-// {
-//     let dir = (round (8 * random( ))) // Change direction at random; brownian motion.
-//     let dx = 0;
-//     let dy = 0;
-//     switch (dir)  // Convert dir to x,y deltas: dir = clock w 0=Up,2=Rt,4=Dn,6=Left.
-//     {
-//       case 0 : {         dy = -1; break; }
-//       case 1 : { dx = 1; dy = -1; break; }
-//       case 2 : { dx = 1; break; }
-//       case 3 : { dx = 1; dy = 1; break; }
-//       case 4 : {         dy = 1; break; }
-//       case 5 : { dx = -1; dy = 1; break; }
-//       case 6 : { dx = -1; break; }
-//       case 7 : { dx = -1; dy = -1; break; }
-//       }
-//     let x = (dx + g_bot.x + g_box.wid) % g_box.wid; // Move-x.  Ensure positive b4 mod.
-//     let y = (dy + g_bot.y + g_box.hgt) % g_box.hgt; // Ditto y.
-//     // Now change color of the Bot's new cell.
-//     let color =  100 + (1 + g_bot.color) % 156; // Incr color in nice range.
-//     g_bot.x = x; // Update bot x.
-//     g_bot.y = y;
-//     g_bot.dir = dir;
-//     g_bot.color = color;
-//     //console.log( "bot x,y,dir,clr = " + x + "," + y + "," + dir + "," +  color );
-// }
-
-// Convert Bot pos to grid pos & draw Bot's color "presence".
-// function draw_bot( ) 
-// {
-//     let sz = g_canvas.cell_size;
-//     let sz2 = sz / 2;
-//     let x = 1+ g_bot.x*sz; // Set x one pixel inside the sz-by-sz cell.
-//     let y = 1+ g_bot.y*sz;
-//     let big = sz -2; // Stay inside cell walls.
-//     // Fill 'color': its a keystring, or a hexstring like "#5F", etc.  See P5 docs.
-//     fill( "#" + g_bot.color ); // Concat string, auto-convert the number to string.
-//     //console.log( "x,y,big = " + x + "," + y + "," + big );
-//     let acolors = get( x + sz2, y + sz2 ); // Get cell interior pixel color [RGBA] array.
-//     let pix = acolors[ 0 ] + acolors[ 1 ] + acolors[ 2 ];
-//     //console.log( "acolors,pix = " + acolors + ", " + pix );
-
-//     // (*) Here is how to detect what's at the pixel location.  See P5 docs for fancier...
-//     if (0 != pix) { fill( 0 ); stroke( 0 ); } // Turn off color of prior bot-visited cell.
-//     else { stroke( 'white' ); } // Else Bot visiting this cell, so color it.
-
-//     // Paint the cell.
-//     rect( x, y, big, big );
-// }
-
-// // Update our display -- Move and draw Bot.
-// function draw_update()  
-// {
-//     //console.log( "g_frame_cnt = " + g_frame_cnt );
-//     move_bot( );
-//     draw_bot( );
-// }
-
-// // P5 Frame Re-draw Fcn, Called for Every Frame.
-// function draw()  
-// {
-//     ++g_frame_cnt; // Track frame count.
-//     if (0 == g_frame_cnt % g_frame_mod)  // Every so often, do stuff.
-//     {
-//         if (!g_stop) draw_update(); // If Bot not "stopped", update Bot.
-//     }
-// }
-
-// // If Key is Pressed, toggle Bot's global stop var.
-// function keyPressed( )
-// {
-//     g_stop = ! g_stop;
-// }
-
-// // If Mouse is Pressed, relocate Bot to Mouse on a cell, wrapped onto grid if needed.
-// //   and gratuitously draw the bot at new loc.
-// function mousePressed( )
-// {
-//     let x = mouseX; // Get mouse's current loc (from its global).
-//     let y = mouseY;
-//     //console.log( "mouse x,y = " + x + "," + y );
-//     // Get grid cell corresponding to mouse XY, storing cell XY into Bot.
-//     let sz = g_canvas.cell_size;
-//     let gridx = round( (x-0.5) / sz );
-//     let gridy = round( (y-0.5) / sz );
-//     //console.log( "grid x,y = " + gridx + "," + gridy );
-//     //console.log( "box wid,hgt = " + g_box.wid + "," + g_box.hgt );
-//     g_bot.x = gridx + g_box.wid; // Ensure its positive.
-//     //console.log( "bot x = " + g_bot.x );
-//     g_bot.x %= g_box.wid; // Wrap to fit box.
-//     g_bot.y = gridy + g_box.hgt;
-//     //console.log( "bot y = " + g_bot.y );
-//     g_bot.y %= g_box.hgt;
-//     //console.log( "bot x,y = " + g_bot.x + "," + g_bot.y );
-//     draw_bot( );
-// }

@@ -2,7 +2,7 @@
 // Time-stamp: <2021-09-28 16:54:18 Chuck Siska>
 
 // Make global g_canvas JS 'object': a key-value 'dictionary'.
-var g_canvas = { cell_size:20, wid:40, hgt:20 }; // JS Global var, w canvas size info.
+var g_canvas = { cell_size:20, wid:40, hgt:5 }; // JS Global var, w canvas size info.
 
 var g_frame_cnt = 0; // Setup a P5 display-frame counter, to do anim
 var g_frame_mod = 24; // Update ever 'mod' frames.
@@ -45,6 +45,19 @@ function retrieve_input_1()
     for (i in output_message)
     {
         text(output_message[i], (8+(i*25)), 20);
+    }
+
+    // for (var i = 0; i < message_length; i++) {
+    //     encryption(messageFieldInput[i], pwinput);
+    // }
+    //encryption(messageFieldInput, pwinput);
+
+    var encodedmessage = encryption2(messageFieldInput, pwinput, message_length);
+    textSize(17);
+    fill("red");
+    for(i in encodedmessage)
+    {
+        text(encodedmessage[i], (8+(i*25)), 45);
     }
 }
 
@@ -133,7 +146,10 @@ function passwordcheck(text)
 
 function outputMessage(message, length)
 {
-    if (message.length < 27) {message = (message + "                          ").substring(0,27);}
+    if (message.length < 27) 
+    {
+        message = (message + "                          ").substring(0,27);
+    }
     let block1 = message.substring(0,7) + "1";
     let block2 = message.substring(7,14) + "2";
     let block3 = message.substring(14,21) + "3";
@@ -144,7 +160,31 @@ function outputMessage(message, length)
 function encryption(message, array_of_characters)
 {
     //TODO: encryption with XOR
-    return 0;
+    let ax = message.charCodeAt(0) - 32;
+    let px = array_of_characters.charCodeAt(0) - 32;
+    console.log(ax);
+    console.log(px);
+
+    let bx = ax ^ px; //what does ^ do
+    let cx = bx + 32;
+    console.log(cx);
+    // var value1 = input[i].charCodeAt(0);
+    // var value2 = key[i].charCodeAt(0);
+
+    // var xorValue = value1 ^ value2;
+    return String.fromCharCode(cx);
+
+}
+
+function encryption2(message, array_of_characters, length)
+{
+    let encryptedString = "";
+    let maxblock = 0;
+    for (var i = 0; i < length; i++) {
+        encryptedString = encryptedString.concat(encryption(message[i], array_of_characters));
+    }
+    console.log(encryptedString);
+    return encryptedString;
 }
 
 

@@ -23,8 +23,10 @@ function setup() // P5 Setup Fcn
 // Callback to get Input-box data.
 function retrieve_input_1()
 {
+    //gets input from message box
     var messageFieldInput = document.getElementById("messageinput").value;
     var message_length = messageFieldInput.length;
+    //base values
     if (message_length == 0) {
         console.log("Please enter a message");
         return
@@ -33,6 +35,7 @@ function retrieve_input_1()
         console.log("The message is too long");
         return
     }
+    //output the message variable 
     var output_message = outputMessage(messageFieldInput, message_length);
     console.log("Output MSG:" + output_message);
 
@@ -57,7 +60,8 @@ function retrieve_input_1()
     // }
     //encryption(messageFieldInput, pwinput);
 
-    var encodedmessage = encryption2(messageFieldInput, pwinput, message_length);
+    // display encoded message
+    var encodedmessage = encryption2(output_message, pwinput, message_length);
     textSize(17);
     for(i in encodedmessage)
     {
@@ -80,10 +84,10 @@ function passwordcheck(text)
 
     // Password must have at least eight characters including an uppercase and lowercase letter, a symbol, and a digit.
     if (newArray.length != 8) {
-        console.log ( "the password is not the right length"); // password is a fixed 8 characters
+        // console.log ( "the password is not the right length"); // password is a fixed 8 characters
         passwordlength = false;
     }
-
+    //iterate through string as a new array
     while (index != text.length) {
         //var ascii_code = data;
         var i = text.charCodeAt(index); // this is the number at the ascii reference
@@ -93,23 +97,24 @@ function passwordcheck(text)
         // upper case check
         if (array_of_characters[index] >= 65 && array_of_characters[index] <= 90) {
             upper_case = true;
-            console.log("is upper case");
+            // console.log("is upper case");
         } else {
             // console.log("value is not uppercase")
         }
         // lower case check
         if (array_of_characters[index] >= 97 && array_of_characters[index] <= 122) {
             lower_case = true;
-            console.log("is lower case");
+            // console.log("is lower case");
         } else {
            //console.log("value is not lowercase")
         }
         // symbol check
         if ((array_of_characters[index] >= 33 && array_of_characters[index] <= 47) || 
             (array_of_characters[index] >= 91 && array_of_characters[index] <= 96) || 
+            (array_of_characters[index] >= 58 && array_of_characters[index] <= 64) ||
             (array_of_characters[index] >= 123 && array_of_characters[index] <= 127) ) {
             symbol = true;
-            console.log("is a symbol");
+            // console.log("is a symbol");
         } else {
             //console.log("value is not a symbol");
         }   
@@ -146,6 +151,7 @@ function passwordcheck(text)
 //     "126": "~",    "127": ""
 //     }
 
+// helper function to display password error
 function passworderror(elem, errormessage)
 {
     var error = document.getElementById(elem);
@@ -154,6 +160,7 @@ function passworderror(elem, errormessage)
     return;
 }
 
+//output string inputed by user
 function outputMessage(message, length)
 {
     if (message.length < 27) 
@@ -164,9 +171,13 @@ function outputMessage(message, length)
     let block2 = message.substring(7,14) + "2";
     let block3 = message.substring(14,21) + "3";
     let block4 = message.substring(21,27) + "4";
-    return (block1 + block2 + block3 + block4);
+
+    let asciichar = String.fromCharCode(length + 32);
+    console.log(asciichar);
+    return (block1 + block2 + block3 + block4 + asciichar);
 }
 
+//encrypt first char
 function encryption(message, array_of_characters)
 {
     //TODO: encryption with XOR
@@ -177,7 +188,8 @@ function encryption(message, array_of_characters)
 
     let bx = ax ^ px; //what does ^ do
     let cx = bx + 32;
-    // console.log(cx);
+    console.log(cx);
+    console.log(String.fromCharCode(cx));
     // var value1 = input[i].charCodeAt(0);
     // var value2 = key[i].charCodeAt(0);
 
@@ -186,6 +198,7 @@ function encryption(message, array_of_characters)
 
 }
 
+//keep encrypting each char in array
 function encryption2(message, array_of_characters, length)
 {
     let encryptedString = "";
@@ -194,7 +207,7 @@ function encryption2(message, array_of_characters, length)
         encryptedString = encryptedString.concat(encryption(message[i], array_of_characters)); //encrypted string calls 
     }
     console.log(encryptedString);
-    return encryptedString;
+    return encryptedString; //return string that was encrypted
 }
 
 

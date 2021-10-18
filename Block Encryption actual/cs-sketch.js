@@ -1,8 +1,11 @@
-// cs-sketch.js; P5 key animation & input fcns.  // CF p5js.org/reference
-// Time-stamp: <2021-09-28 16:54:18 Chuck Siska>
+//College Capybaras Block Encryption Program
+//Nicholas Ayson  nick.ayson@csu.fullerton.edu
+//Darrick Rusk    drusk1@csu.fullerton.edu
+//AJ Albrecht     ajalbrecht@csu.fullerton.edu
+//PoTyng Wu       gaidepeter@csu.fullerton.edu
 
 // Make global g_canvas JS 'object': a key-value 'dictionary'.
-var g_canvas = { cell_size:20, wid:40, hgt:2.5 }; // JS Global var, w canvas size info.
+var g_canvas = { cell_size:20, wid:40, hgt:3.7 }; // JS Global var, w canvas size info.
 
 var g_frame_cnt = 0; // Setup a P5 display-frame counter, to do anim
 var g_frame_mod = 24; // Update ever 'mod' frames.
@@ -29,11 +32,11 @@ function retrieve_input_1()
     //base values
     if (message_length == 0) {
         console.log("Please enter a message");
-        return
+        return;
     }
     if (message_length > 27) {
         console.log("The message is too long");
-        return
+        return;
     }
     //output the message variable 
     var output_message = outputMessage(messageFieldInput, message_length);
@@ -43,7 +46,8 @@ function retrieve_input_1()
     let check = passwordcheck(pwinput); 
 
     if(!check){
-        passworderror("error","Password error. Please enter valid passord following rules.");
+        passworderror("error","Password error. Please enter valid password following rules.");
+        setTimeout(() => { location.reload() }, 5000); // after 10 seconds the page will reload
         return;
     }
 
@@ -55,17 +59,20 @@ function retrieve_input_1()
         text(output_message[i], (8+(i*25)), 20);
     }
 
-    // for (var i = 0; i < message_length; i++) {
-    //     encryption(messageFieldInput[i], pwinput);
-    // }
-    //encryption(messageFieldInput, pwinput);
-
     // display encoded message
     var encodedmessage = encryption2(output_message, pwinput, message_length);
     textSize(17);
     for(i in encodedmessage)
     {
         text(encodedmessage[i], (8+(i*25)), 45);
+    }
+
+    // display decoded message
+    var decodedmessage = decode2(encodedmessage, pwinput, message_length);
+    textSize(17);
+    for(i in decodedmessage)
+    {
+        text(decodedmessage[i], (8+(i*25)), 70)
     }
 }
 
@@ -84,29 +91,23 @@ function passwordcheck(text)
 
     // Password must have at least eight characters including an uppercase and lowercase letter, a symbol, and a digit.
     if (newArray.length != 8) {
-        // console.log ( "the password is not the right length"); // password is a fixed 8 characters
+        console.log ( "the password is not the right length"); // password is a fixed 8 characters
         passwordlength = false;
     }
     //iterate through string as a new array
     while (index != text.length) {
         //var ascii_code = data;
         var i = text.charCodeAt(index); // this is the number at the ascii reference
-        //console.log( "data = " + i); // Show data in F12 Console output.
         array_of_characters[index] = i;
-        //console.log( "array data - " + array_of_characters[index])
         // upper case check
         if (array_of_characters[index] >= 65 && array_of_characters[index] <= 90) {
             upper_case = true;
             // console.log("is upper case");
-        } else {
-            // console.log("value is not uppercase")
         }
         // lower case check
         if (array_of_characters[index] >= 97 && array_of_characters[index] <= 122) {
             lower_case = true;
             // console.log("is lower case");
-        } else {
-           //console.log("value is not lowercase")
         }
         // symbol check
         if ((array_of_characters[index] >= 33 && array_of_characters[index] <= 47) || 
@@ -115,41 +116,14 @@ function passwordcheck(text)
             (array_of_characters[index] >= 123 && array_of_characters[index] <= 127) ) {
             symbol = true;
             // console.log("is a symbol");
-        } else {
-            //console.log("value is not a symbol");
-        }   
+        }  
         index++;
     }
 
     if(upper_case == true && lower_case == true && symbol == true && passwordlength == true){
         return true;
     }
-
 }
-//"ABC".charCodeAt(0) // returns 65
-// String.fromCharCode(65,66,67); // returns 'ABC'
-// {
-//     "31": "",      "32": " ",     "33": "!",     "34": "\"",    "35": "#",    
-//     "36": "$",     "37": "%",     "38": "&",     "39": "'",     "40": "(",    
-//     "41": ")",     "42": "*",     "43": "+",     "44": ",",     "45": "-",    
-//     "46": ".",     "47": "/",     "48": "0",     "49": "1",     "50": "2",    
-//     "51": "3",     "52": "4",     "53": "5",     "54": "6",     "55": "7",    ]
-//     "56": "8",     "57": "9",     "58": ":",     "59": ";",     "60": "<",    
-//     "61": "=",     "62": ">",     "63": "?",     "64": "@",     "65": "A",    
-//     "66": "B",     "67": "C",     "68": "D",     "69": "E",     "70": "F",    
-//     "71": "G",     "72": "H",     "73": "I",     "74": "J",     "75": "K",    
-//     "76": "L",     "77": "M",     "78": "N",     "79": "O",     "80": "P",    
-//     "81": "Q",     "82": "R",     "83": "S",     "84": "T",     "85": "U",    
-//     "86": "V",     "87": "W",     "88": "X",     "89": "Y",     "90": "Z",    
-//     "91": "[",     "92": "\\",    "93": "]",     "94": "^",     "95": "_",    
-//     "96": "`",     "97": "a",     "98": "b",     "99": "c",     "100": "d",    
-//     "101": "e",    "102": "f",    "103": "g",    "104": "h",    "105": "i",    
-//     "106": "j",    "107": "k",    "108": "l",    "109": "m",    "110": "n",    
-//     "111": "o",    "112": "p",    "113": "q",    "114": "r",    "115": "s",    
-//     "116": "t",    "117": "u",    "118": "v",    "119": "w",    "120": "x",    
-//     "121": "y",    "122": "z",    "123": "{",    "124": "|",    "125": "}",    
-//     "126": "~",    "127": ""
-//     }
 
 // helper function to display password error
 function passworderror(elem, errormessage)
@@ -180,20 +154,16 @@ function outputMessage(message, length)
 //encrypt first char
 function encryption(message, array_of_characters)
 {
-    //TODO: encryption with XOR
     let ax = message.charCodeAt(0) - 32;
     let px = array_of_characters.charCodeAt(0) - 32;
-    // console.log(ax);
-    // console.log(px);
+    //console.log(ax);
+    //console.log(px);
 
-    let bx = ax ^ px; //what does ^ do
+    let bx = ax ^ px; //what does ^ do says this is logical xor
     let cx = bx + 32;
     console.log(cx);
     console.log(String.fromCharCode(cx));
-    // var value1 = input[i].charCodeAt(0);
-    // var value2 = key[i].charCodeAt(0);
 
-    // var xorValue = value1 ^ value2;
     return String.fromCharCode(cx);
 
 }
@@ -202,13 +172,35 @@ function encryption(message, array_of_characters)
 function encryption2(message, array_of_characters, length)
 {
     let encryptedString = "";
-    let maxblock = 0;
-    for (var i = 0; i < length; i++) {
-        encryptedString = encryptedString.concat(encryption(message[i], array_of_characters)); //encrypted string calls 
+    for (var i = 0; i < 32; i++) {
+        encryptedString = encryptedString.concat(encryption(message[i], array_of_characters[(i % 8)])); //encrypted string calls 
     }
     console.log(encryptedString);
     return encryptedString; //return string that was encrypted
 }
 
+function decode(omessage, array_of_characters) //decryption of a single character
+{
+        let ax = omessage.charCodeAt(0) - 32;
+        let px = array_of_characters.charCodeAt(0) - 32;
+        //console.log(ax);
+        //console.log(px);
+    
+        let bx = ax ^ px; //what does ^ do says this is logical xor
+        let cx = bx + 32;
+        console.log(cx);
+        console.log(String.fromCharCode(cx));
+        
+        return String.fromCharCode(cx);
+}
 
+function decode2(message, array_of_characters, length)  //decrypt each character
+{
+    let decodedString = "";
+    for (var i = 0; i < 32; i++) {
+        decodedString = decodedString.concat(decode(message[i], array_of_characters[(i % 8)])); //encrypted string calls 
+    }
+    console.log(decodedString);
+    return decodedString; //return string that was decrypted
+}
 

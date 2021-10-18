@@ -25,16 +25,18 @@
           <p>
               <b>Rules:</b>
                   <br>
-                  <li>Maximum length is 27 characters.</li>
-                  <li>8 characters required.</li>
-                  <li>1 Uppercase letter.</li>
-                  <li>1 Lowercase letter.</li>
-                  <li>1 Digit.</li>
-                  <li>1 Symbol.</li>
-                  <br>
+                  <li>Maximum length is 27 characters</li>
+                  <li>8 characters required</li>
+                  <li>1 Uppercase letter</li>
+                  <li>1 Lowercase letter</li>
+                  <li>1 Digit</li>
+                  <li>1 Symbol</li>
+                  <p> Please Enter Message/Plaintext:</p>
               <input id="messageinput" type="text" placeholder="Enter a message" maxlength="27" size="29" autocomplete="off"/><br>
+              <p> Please Enter Password:</p>
               <input id="passwordinput" type="text" placeholder="Enter a password" minlength="8" maxlength="8" autocomplete="off"/>
               <input id="submitbutton" type="button" value="Submit" onclick="retrieve_input_1();"/><br>
+              <span id="error"></span>
           </p>
         </div>
     </div>

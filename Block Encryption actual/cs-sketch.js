@@ -2,7 +2,7 @@
 // Time-stamp: <2021-09-28 16:54:18 Chuck Siska>
 
 // Make global g_canvas JS 'object': a key-value 'dictionary'.
-var g_canvas = { cell_size:20, wid:40, hgt:5 }; // JS Global var, w canvas size info.
+var g_canvas = { cell_size:20, wid:40, hgt:2.5 }; // JS Global var, w canvas size info.
 
 var g_frame_cnt = 0; // Setup a P5 display-frame counter, to do anim
 var g_frame_mod = 24; // Update ever 'mod' frames.
@@ -39,6 +39,11 @@ function retrieve_input_1()
     var pwinput = document.getElementById("passwordinput").value; 
     let check = passwordcheck(pwinput); 
 
+    if(!check){
+        passworderror("error","Password error. Please enter valid passord following rules.");
+        return;
+    }
+
     
     //prints message in grid
     textSize(17);
@@ -54,7 +59,6 @@ function retrieve_input_1()
 
     var encodedmessage = encryption2(messageFieldInput, pwinput, message_length);
     textSize(17);
-    fill("red");
     for(i in encodedmessage)
     {
         text(encodedmessage[i], (8+(i*25)), 45);
@@ -72,6 +76,14 @@ function passwordcheck(text)
     var upper_case = false;
     var lower_case = false;
     var symbol =     false;
+    var passwordlength = true;
+
+    // Password must have at least eight characters including an uppercase and lowercase letter, a symbol, and a digit.
+    if (newArray.length != 8) {
+        console.log ( "the password is not the right length"); // password is a fixed 8 characters
+        passwordlength = false;
+    }
+
     while (index != text.length) {
         //var ascii_code = data;
         var i = text.charCodeAt(index); // this is the number at the ascii reference
@@ -79,44 +91,35 @@ function passwordcheck(text)
         array_of_characters[index] = i;
         //console.log( "array data - " + array_of_characters[index])
         // upper case check
-        if (array_of_characters[index] >= 65 && array_of_characters[index] <= 90) 
-        {
+        if (array_of_characters[index] >= 65 && array_of_characters[index] <= 90) {
             upper_case = true;
-            //console.log("is upper case");
-        } 
-        else 
-        {
-            //console.log("value is not uppercase")
+            console.log("is upper case");
+        } else {
+            // console.log("value is not uppercase")
         }
         // lower case check
-        if (array_of_characters[index] >= 97 && array_of_characters[index] <= 122) 
-        {
+        if (array_of_characters[index] >= 97 && array_of_characters[index] <= 122) {
             lower_case = true;
-            //console.log("is lower case");
-        } 
-        else 
-        {
+            console.log("is lower case");
+        } else {
            //console.log("value is not lowercase")
         }
         // symbol check
         if ((array_of_characters[index] >= 33 && array_of_characters[index] <= 47) || 
             (array_of_characters[index] >= 91 && array_of_characters[index] <= 96) || 
-            (array_of_characters[index] >= 123 && array_of_characters[index] <= 127) ) 
-            {
+            (array_of_characters[index] >= 123 && array_of_characters[index] <= 127) ) {
             symbol = true;
-            //console.log("is a symbol");
-        }
-        else 
-        {
+            console.log("is a symbol");
+        } else {
             //console.log("value is not a symbol");
         }   
         index++;
     }
-    // Password must have at least eight characters including an uppercase and lowercase letter, a symbol, and a digit. It may not contain a
-    // dictionary word (comprehensive8).
-    if (array_of_characters.length != 8) {
-        console.log ( "the password is not the right length"); // password is a fixed 8 characters
+
+    if(upper_case == true && lower_case == true && symbol == true && passwordlength == true){
+        return true;
     }
+
 }
 //"ABC".charCodeAt(0) // returns 65
 // String.fromCharCode(65,66,67); // returns 'ABC'
@@ -143,6 +146,13 @@ function passwordcheck(text)
 //     "126": "~",    "127": ""
 //     }
 
+function passworderror(elem, errormessage)
+{
+    var error = document.getElementById(elem);
+    error.textContent = errormessage;
+    error.style.color = "red";
+    return;
+}
 
 function outputMessage(message, length)
 {
@@ -162,12 +172,12 @@ function encryption(message, array_of_characters)
     //TODO: encryption with XOR
     let ax = message.charCodeAt(0) - 32;
     let px = array_of_characters.charCodeAt(0) - 32;
-    console.log(ax);
-    console.log(px);
+    // console.log(ax);
+    // console.log(px);
 
     let bx = ax ^ px; //what does ^ do
     let cx = bx + 32;
-    console.log(cx);
+    // console.log(cx);
     // var value1 = input[i].charCodeAt(0);
     // var value2 = key[i].charCodeAt(0);
 
@@ -181,10 +191,11 @@ function encryption2(message, array_of_characters, length)
     let encryptedString = "";
     let maxblock = 0;
     for (var i = 0; i < length; i++) {
-        encryptedString = encryptedString.concat(encryption(message[i], array_of_characters));
+        encryptedString = encryptedString.concat(encryption(message[i], array_of_characters)); //encrypted string calls 
     }
     console.log(encryptedString);
     return encryptedString;
 }
+
 
 

@@ -9,7 +9,7 @@ Darrick Rusk  drusk1@csu.fullerton.edu
 Po-Tyng(Peter) Wu     gaidepeter@csu.fullerton.edu  
 
 Project Purpose:  
-Project takes string from user and encrypts it with a plaintext messge. The password has to meet comprehensive8 rules and it is then displayed onto a graph via html and css files  
+Project takes string from user and encrypts it with a plaintext messge. The password has to meet comprehensive8 rules and it is then displayed onto a graph via html and css files    
 Zip Contents: File README.txt. This file. File index.html. Main HTML file and Front-End of project. File styles.css. Main CSS file. File cs-sketch.js. Includes all logic used for encryption as well as the display functions. File p5.js. P5.js Library file.  
 
 Open: 

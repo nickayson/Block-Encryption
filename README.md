@@ -5,7 +5,7 @@ CPSC 353-05 Introduction to Computer Security Project-1 Block Encryption
 Team Name: College Capybaras  
 Nicholas Ayson  nick.ayson@csu.fullerton.edu  
 AJ Albrecht   ajalbrecht@csu.fullerton.edu  
-Darrick Rusk  darrickrusk18@gmail.com  
+Darrick Rusk  drusk1@csu.fullerton.edu  
 Po-Tyng(Peter) Wu     gaidepeter@csu.fullerton.edu  
 
 Project Purpose:  

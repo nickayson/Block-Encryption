@@ -26,4 +26,6 @@ https://stackoverflow.com/questions/18279141/javascript-string-encryption-and-de
 
 P5 library is used to draw grid in most efficient way  
 
-Exceptions: Guidelines in pdf don't state for user to decrypt message after encryption possibly another side project to do.
+Exceptions: Guidelines in pdf don't state for user to decrypt message after encryption possibly another side project to do.  
+
+![grab-landing-page](https://github.com/nickayson/Block-Encryption/blob/main/P5-JS-HTML%20-%20Personal%20-%20Microsoft%E2%80%8B%20Edge%2010_18_2021%208_00_45%20PM.png)

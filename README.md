@@ -1,6 +1,6 @@
 # Block-Encryption
 
-CPSC 353-05 Introduction to Computer Security Project-1 Block Encryption  
+Introduction to Computer Security Block Encryption  
 
 Team Name: College Capybaras  
 Nicholas Ayson  nick.ayson@csu.fullerton.edu  
